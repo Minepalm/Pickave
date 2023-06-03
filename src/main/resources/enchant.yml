@@ -1,0 +1,14 @@
+preset: "pickaveEnchant"
+enchants:
+  a:
+    enchant: "unbreaking"
+    level: 2
+    percent: 33.3
+  b:
+    enchant: "efficiency"
+    level: 5
+    percent: 33.3
+  c:
+    enchant: "fortune"
+    level: 3
+    percent: 33.3
