@@ -1,4 +1,20 @@
+name: "RANDOM_BOX"
 items:
-  "minecraft:stone": 30
-  "minecraft:iron_ingot": 10
-  "minecraft:gold_ingot": 5
+  #이름: 확률(비중)
+  "minecraft:WOODEN_PICKAXE": 10
+  "minecraft:STONE_PICKAXE": 10
+  "minecraft:IRON_PICKAXE": 10
+  "minecraft:GOLDEN_PICKAXE": 10
+  "minecraft:DIAMOND_PICKAXE": 10
+  "minecraft:NETHERITE_PICKAXE": 10
+  "custom:lantern": 10
+  "custom:oxegen_pump": 10
+  "custom:enchanted_bottle": 10
+  "custom:smith_hammer": 10
+  "custom:spawn_compass": 10
+  "custom:forgive_compass": 10
+  "minecraft:ENDER_EYE": 10
+  "custom:100_GOLD": 10
+  "custom:1000_GOLD": 10
+  "custom:5000_GOLD": 10
+  "custom:snowball_5": 10

@@ -16,7 +16,7 @@ class ItemRepo(
     }
 
     operator fun get(name: String): ItemStack? {
-        return items[name.uppercase()]?.itemStack
+        return items[name.uppercase()]?.itemStack?.clone()
     }
 
     operator fun set(name: String, item: ItemStack) {

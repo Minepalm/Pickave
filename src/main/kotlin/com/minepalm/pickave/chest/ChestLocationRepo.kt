@@ -1,15 +1,18 @@
 package com.minepalm.pickave.chest
 
 import org.bukkit.Location
-import org.bukkit.enchantments.Enchantment
 import java.util.concurrent.ConcurrentHashMap
 
-class ChestLocaitonRepo {
+class ChestLocationRepo {
 
     private val chestLocations = ConcurrentHashMap<Int, Location>()
 
     fun add(index: Int, location: Location) {
-        chestLocations.put(index, location)
+        chestLocations[index] = location
+    }
+
+    operator fun get(index: Int): Location? {
+        return chestLocations[index]
     }
 
     fun remove(index: Int) {

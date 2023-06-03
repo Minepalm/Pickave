@@ -17,11 +17,7 @@ class DBCommands : BaseCommand() {
 
     private val repo
         get() = Pickave.idb
-    //ItemDB
-    //idb get <name> - 아이템을 얻습니다.
-    //idb set <name> - 손에 들고 있는 아이템을 등록합니다.
-    //idb delete <name> - 아이템을 삭제합니다.
-    //idb list - 아이템 목록 GUI를 봅니다.
+
     @Default
     fun help(sender: Player) {
         sender.sendMessage("§aItemDB Help")

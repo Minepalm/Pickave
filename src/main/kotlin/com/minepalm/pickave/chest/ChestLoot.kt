@@ -6,7 +6,7 @@ import org.bukkit.block.Chest
 import org.bukkit.inventory.ItemStack
 
 class ChestLoot(
-    val randomBox: ItemStack
+    val randomBox: ItemStack?
 ) {
 
     fun inject(block: Block) {

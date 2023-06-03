@@ -2,7 +2,7 @@ package com.minepalm.pickave.fear
 
 object GlobalFear {
 
-    fun addFear() {
+    fun addFear(value: Int) {
 
     }
 

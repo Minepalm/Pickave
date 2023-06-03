@@ -2,8 +2,9 @@ package com.minepalm.pickave.chest
 
 import com.minepalm.arkarangutils.bukkit.SimpleConfig
 import org.bukkit.Location
+import org.bukkit.plugin.java.JavaPlugin
 
-class ChestLocationFile : SimpleConfig(plugin, "chests.yml"){
+class ChestLocationFile(plugin: JavaPlugin) : SimpleConfig(plugin, "chest_locations.yml"){
 
     fun readAllLocation(): Map<Int, Location> {
         val map = mutableMapOf<Int, Location>()
