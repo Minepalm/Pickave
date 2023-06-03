@@ -2,8 +2,7 @@ package com.minepalm.pickave.shop.button
 
 import com.minepalm.pickave.has
 import com.minepalm.pickave.remove
-import giveMoney
-import hasMoney
+import com.minepalm.pickave.giveMoney
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent

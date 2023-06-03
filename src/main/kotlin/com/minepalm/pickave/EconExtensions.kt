@@ -1,3 +1,5 @@
+package com.minepalm.pickave
+
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player

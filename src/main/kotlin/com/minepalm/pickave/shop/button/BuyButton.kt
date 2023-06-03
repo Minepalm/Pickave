@@ -1,6 +1,6 @@
 package com.minepalm.pickave.shop.button
 
-import hasMoney
+import com.minepalm.pickave.hasMoney
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack

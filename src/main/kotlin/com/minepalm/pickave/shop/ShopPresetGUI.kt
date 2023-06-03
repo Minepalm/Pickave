@@ -1,9 +1,8 @@
 package com.minepalm.pickave.shop
 
 import com.minepalm.gui.preset.GUIPreset
-import com.minepalm.gui.preset.GUIPresetRegistry
 import com.minepalm.gui.preset.PresetGUI
-import getMoney
+import com.minepalm.pickave.getMoney
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
 import org.bukkit.Material

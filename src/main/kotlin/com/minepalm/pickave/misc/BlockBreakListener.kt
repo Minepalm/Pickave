@@ -1,4 +1,4 @@
-package com.minepalm.pickave.trap
+package com.minepalm.pickave.misc
 
 //### 함정 블럭
 //
@@ -15,5 +15,5 @@ package com.minepalm.pickave.trap
 //    - 흑요석과 동일하나, 상점에서 판매할 수 없습니다.
 //- 스컬크 블럭
 //    - 캐면 공포 중첩이 1회 증가합니다.
-class PickaveTrap {
+class BlockBreakListener {
 }
