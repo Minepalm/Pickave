@@ -12,7 +12,7 @@ class ChestLoot(
     fun inject(block: Block) {
         if(block.type == Material.CHEST) {
             val chest = block.state as Chest
-            chest.blockInventory.setItem(18+4, randomBox)
+            chest.blockInventory.setItem(9+4, randomBox)
         }
     }
 }

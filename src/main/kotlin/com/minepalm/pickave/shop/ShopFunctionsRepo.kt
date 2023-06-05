@@ -1,5 +1,6 @@
 package com.minepalm.pickave.shop
 
+import com.minepalm.pickave.Pickave
 import java.util.concurrent.ConcurrentHashMap
 
 class ShopFunctionsRepo(
@@ -10,6 +11,7 @@ class ShopFunctionsRepo(
 
     init {
         for (config in directory.readAll()) {
+            Pickave.logger.info("[PickaveShop] registered shop ${config.funcs.presetName}")
             map[config.funcs.presetName] = config.funcs
         }
     }
@@ -32,6 +34,10 @@ class ShopFunctionsRepo(
 
     fun remove(name: String) {
         map.remove(name)
+    }
+
+    fun all(): List<ShopFunctions> {
+        return map.values.toList()
     }
 
 }

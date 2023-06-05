@@ -26,7 +26,9 @@ class EnderEventListener : Listener {
                 itemEnderEye.amount = itemEnderEye.amount - 1
                 val data = block.blockData as EndPortalFrame
                 data.setEye(true)
+                block.blockData = data
                 effectEnderFrame(event.clickedBlock!!)
+                event.isCancelled = true
             }
         }
     }
@@ -49,6 +51,7 @@ class EnderEventListener : Listener {
             block.world.createExplosion(center, 4f, false, false)
             val data = block.blockData as EndPortalFrame
             data.setEye(false)
+            block.blockData = data
             EnderEvents.allPlayers.first().let {
                 it.playSound(it.location, Sound.ENTITY_ENDER_DRAGON_DEATH, 1f, 1f)
             }
@@ -60,20 +63,20 @@ class EnderEventListener : Listener {
     }
 
     private fun drawGageParticle(center: Location) {
-        val degree = 12 / 360
+        var degree = 12 / 360
         var radius = 4.0
-        val effectType = Particle.PORTAL
+        val effectType = Particle.ASH
         var count = 0
         for (j in 0 until 8) {
+            radius -= 0.5
             Pickave.ex.sync(2 * j) {
-
                 for (i in 0 until 12) {
-                    radius -= 0.5
+                    degree *= j
                     val radian = Math.toRadians(degree.toDouble() * 360)
                     val x = radius * cos(radian)
                     val z = radius * sin(radian)
                     val loc = Location(center.world, center.x + x, center.y, center.z + z)
-                    center.world.spawnParticle(effectType, loc, 1)
+                    center.world.spawnParticle(effectType, loc, 10)
                 }
             }
         }

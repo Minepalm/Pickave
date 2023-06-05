@@ -5,12 +5,13 @@ import java.io.File
 
 class PickaveChest(plugin: JavaPlugin) {
 
-    val repo = ChestLocationRepo()
+    val repo: ChestLocationRepo
     val locationFile = ChestLocationFile(plugin)
     val conf = ChestConf(plugin)
     private val loot = ChestLoot(conf.item)
 
     init {
+        repo = ChestLocationRepo(locationFile)
         val map = locationFile.readAllLocation()
         for ((index, location) in map) {
             repo.add(index, location)

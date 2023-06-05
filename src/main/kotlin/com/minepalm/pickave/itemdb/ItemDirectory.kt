@@ -35,7 +35,7 @@ class ItemDirectory(
 
     private fun loadFiles(): List<YamlItemStack> {
         val files = mutableListOf<YamlItemStack>()
-        for (file in directory.listFiles()!!) {
+        for (file in directory.listFiles()!!.filter { it.name.endsWith(".yml") }) {
             files.add(YamlItemStack(file))
         }
         return files

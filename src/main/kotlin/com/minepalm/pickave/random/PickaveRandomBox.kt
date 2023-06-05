@@ -1,6 +1,8 @@
 package com.minepalm.pickave.random
 
+import com.minepalm.pickave.Pickave
 import com.minepalm.pickave.parseItem
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
@@ -8,11 +10,15 @@ import org.bukkit.plugin.java.JavaPlugin
 class PickaveRandomBox(plugin: JavaPlugin) {
 
     val conf = RandomBoxConfig(plugin)
-    val item = conf.itemName.parseItem()
+    val item : ItemStack?
+        get() {
+            return Pickave.idb[conf.itemName]
+        }
     private val list = mutableListOf<RandomBoxData>()
 
     init {
-        conf.load()
+        list.addAll(conf.load())
+        Bukkit.getPluginManager().registerEvents(RandomBoxListener(), plugin)
     }
 
     fun random(): ItemStack {

@@ -6,7 +6,7 @@ import org.bukkit.NamespacedKey
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.plugin.java.JavaPlugin
 
-class EnchantConfig(plugin: JavaPlugin): SimpleConfig(plugin, "enchants.yml") {
+class EnchantConfig(plugin: JavaPlugin): SimpleConfig(plugin, "enchant.yml") {
 
     val presetName: String
     private val enchants = mutableMapOf<String, EnchantObj>()
@@ -27,11 +27,11 @@ class EnchantConfig(plugin: JavaPlugin): SimpleConfig(plugin, "enchants.yml") {
     fun load() {
         val section = config.getConfigurationSection("enchants") ?: return
         for (key in section.getKeys(false)) {
-            val enchantName = config.getString("$key.enchant") ?: continue
+            val enchantName = section.getString("$key.enchant") ?: continue
             val nk = NamespacedKey.minecraft(enchantName)
             val enchant = Enchantment.getByKey(nk) ?: continue
-            val level = config.getInt("$key.level")
-            val percent = config.getDouble("$key.percent")
+            val level = section.getInt("$key.level")
+            val percent = section.getDouble("$key.percent")
             enchants[key] = EnchantObj(enchant, level, percent)
         }
     }

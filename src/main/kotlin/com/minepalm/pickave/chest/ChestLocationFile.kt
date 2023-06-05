@@ -15,4 +15,22 @@ class ChestLocationFile(plugin: JavaPlugin) : SimpleConfig(plugin, "chest_locati
         }
         return map
     }
+
+    fun writeLocation(index: Int, loc: Location) {
+        config.set(index.toString(), loc)
+        save()
+    }
+
+    fun removeLocation(index: Int) {
+        config.set(index.toString(), null)
+        save()
+    }
+
+    fun writeAllLocation(map: Map<Int, Location>) {
+        val section = config.createSection("chests")
+        for ((index, location) in map) {
+            section.set(index.toString(), location)
+        }
+        save()
+    }
 }

@@ -1,0 +1,11 @@
+#gp 로 설정한 preset 이름
+preset: "pickaveShop1"
+default-type: "BUY"
+#GUI 슬롯
+functions:
+  1:
+    #itemRepo 아이템이면 "custom:stone" 으로 쓰고,
+    #마인크래프트 순정 아이템이면 "minecraft:stone" 으로 쓰세요.
+    item: "minecraft:stone"
+    #1개당 가격
+    price: 1.0

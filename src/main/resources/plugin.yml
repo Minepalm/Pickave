@@ -1,0 +1,8 @@
+main: com.minepalm.pickave.PickavePlugin
+name: Pickave
+version: 1.0
+author: Arkarang
+api-version: 1.19
+depend:
+  - Vault
+  - GUIPreset

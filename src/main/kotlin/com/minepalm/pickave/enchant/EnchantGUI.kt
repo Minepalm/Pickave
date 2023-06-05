@@ -17,9 +17,9 @@ class EnchantGUI(
 ) : PresetGUI(preset) {
 
     companion object {
-        const val BOTTLE_SLOT = 17
-        const val ENCHANT_SLOT = 1
-        const val PROCESS_SLOT = 2
+        const val BOTTLE_SLOT = 15
+        const val ENCHANT_SLOT = 11
+        const val PROCESS_SLOT = 22
 
         private val pickaxes = listOf(
             Material.NETHERITE_PICKAXE,
@@ -37,22 +37,34 @@ class EnchantGUI(
         cancelled[BOTTLE_SLOT] = false
         cancelled[ENCHANT_SLOT] = false
         funcs[BOTTLE_SLOT] = Consumer { event ->
-            val item = inv.getItem(BOTTLE_SLOT) ?: return@Consumer
-            if (item.type != Material.EXPERIENCE_BOTTLE) {
+            val item = inv.getItem(BOTTLE_SLOT)
+            val cursor = event.cursor
+            if(cursor?.type == Material.EXPERIENCE_BOTTLE) {
+                if(item == null || item.type == Material.AIR) {
+                    event.isCancelled = false
+                    return@Consumer
+                }
+            } else if(cursor?.type == Material.AIR) {
+                if(item != null && item.type == Material.EXPERIENCE_BOTTLE) {
+                    event.isCancelled = false
+                    return@Consumer
+                }
+            } else {
                 event.isCancelled = true
                 return@Consumer
             }
         }
         funcs[ENCHANT_SLOT] = Consumer {
             val item = inv.getItem(ENCHANT_SLOT)
+            val cursor = it.cursor
             val player = it.whoClicked as? Player ?: return@Consumer
-            if(item != null && item.type != Material.AIR) {
-                if(item.type !in pickaxes) {
+            if(cursor != null && cursor.type != Material.AIR) {
+                if(cursor.type !in pickaxes) {
                     it.isCancelled = true
                     player.playSound(player.location, Sound.BLOCK_ANVIL_HIT, 1f, 1f)
                     return@Consumer
                 }
-                if(item.enchantments.isNotEmpty()) {
+                if(cursor.enchantments.isNotEmpty()) {
                     player.playSound(player.location, Sound.BLOCK_ANVIL_HIT, 1f, 1f)
                     it.isCancelled = true
                     return@Consumer
@@ -77,7 +89,7 @@ class EnchantGUI(
             val item = inv.getItem(ENCHANT_SLOT)!!
             item.addUnsafeEnchantment(enchant.enchant, enchant.level)
             inv.setItem(ENCHANT_SLOT, item)
-            inv.setItem(BOTTLE_SLOT, null)
+            inv.setItem(BOTTLE_SLOT, inv.getItem(BOTTLE_SLOT)?.apply { amount -= 1 })
             inv.setItem(PROCESS_SLOT, originalItem)
             player.updateInventory()
 

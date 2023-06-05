@@ -40,6 +40,10 @@ fun Inventory.has(item: ItemStack, amountIn: Int = 1): Boolean {
     return false
 }
 
+fun String.idb(): ItemStack? {
+    return Pickave.idb[this]
+}
+
 fun String.parseItem(): ItemStack? {
     val itemName = this
     val split = itemName.split(":")
@@ -52,11 +56,11 @@ fun String.parseItem(): ItemStack? {
                 return itemz.clone()
             }
             else -> {
-                val material = Material.getMaterial(itemName)
-                if (material != null) {
-                    return ItemStack(material)
+                val material = Material.getMaterial(name.uppercase())
+                return if (material != null) {
+                    ItemStack(material)
                 } else
-                    return null
+                    null
 
             }
         }

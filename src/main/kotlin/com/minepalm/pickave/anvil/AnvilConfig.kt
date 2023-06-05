@@ -10,6 +10,6 @@ class AnvilConfig(plugin: JavaPlugin): SimpleConfig(plugin, "anvil.yml") {
 
     init {
         presetName = config.getString("preset", "pickaveAnvil")!!
-        hammer = config.getString("hammer", "IRON_PICKAXE")!!
+        hammer = config.getString("hammer", "HAMMER")!!
     }
 }

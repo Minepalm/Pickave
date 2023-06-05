@@ -4,6 +4,7 @@ import com.minepalm.gui.preset.GUIPreset
 import com.minepalm.gui.preset.PresetGUI
 import com.minepalm.pickave.Pickave
 import com.minepalm.pickave.enchant.EnchantGUI
+import com.minepalm.pickave.isSimilarTo
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -19,11 +20,11 @@ class AnvilGUI(
 ) : PresetGUI(preset) {
 
     companion object {
-        const val INPUT_SLOT_ORIGIN = 0
-        const val INPUT_SLOT_MATERIAL = 1
-        const val OUTPUT_SLOT = 2
-        const val PROGRESS_SLOT = 3
-        const val HAMMER_SLOT = 4
+        const val INPUT_SLOT_ORIGIN = 10
+        const val INPUT_SLOT_MATERIAL = 13
+        const val OUTPUT_SLOT = 10
+        const val PROGRESS_SLOT = 4
+        const val HAMMER_SLOT = 16
 
         private val pickaxes = listOf(
             Material.NETHERITE_PICKAXE,
@@ -35,14 +36,15 @@ class AnvilGUI(
         )
     }
 
-    private val originalItem = inv.getItem(EnchantGUI.ENCHANT_SLOT)?.clone()
+    private val originalItem = inv.getItem(PROGRESS_SLOT)?.clone()
     private val hammer = Pickave.idb[config.hammer]
 
     init {
         cancelled[INPUT_SLOT_ORIGIN] = false
         cancelled[INPUT_SLOT_MATERIAL] = false
+        cancelled[HAMMER_SLOT] = false
         funcs[INPUT_SLOT_ORIGIN] = Consumer {
-            val item = inv.getItem(INPUT_SLOT_ORIGIN)
+            val item = it.cursor
             val player = it.whoClicked as? Player ?: return@Consumer
             if(item != null && item.type != Material.AIR) {
                 if(item.type !in pickaxes) {
@@ -58,7 +60,8 @@ class AnvilGUI(
             }
         }
         funcs[INPUT_SLOT_MATERIAL] = Consumer {
-            val item = inv.getItem(INPUT_SLOT_MATERIAL)
+            val item = it.cursor
+            val itemOrigin = inv.getItem(INPUT_SLOT_ORIGIN)
             val player = it.whoClicked as? Player ?: return@Consumer
             if(item != null && item.type != Material.AIR) {
                 if(item.type !in pickaxes) {
@@ -71,18 +74,36 @@ class AnvilGUI(
                     it.isCancelled = true
                     return@Consumer
                 }
+
+                if(itemOrigin != null && itemOrigin.type != item.type) {
+                    it.isCancelled = true
+                    player.playSound(player.location, Sound.BLOCK_ANVIL_HIT, 1f, 1f)
+                    return@Consumer
+                }
             }
         }
         funcs[OUTPUT_SLOT] = Consumer { event ->
-            if(inv.getItem(OUTPUT_SLOT) != null && inv.getItem(OUTPUT_SLOT)?.type != Material.AIR &&
-                (event.cursor == null || event.cursor?.type == Material.AIR)) {
-                event.isCancelled = false
+            event.isCancelled = !(inv.getItem(OUTPUT_SLOT) != null && inv.getItem(OUTPUT_SLOT)?.type != Material.AIR &&
+                    (event.cursor == null || event.cursor?.type == Material.AIR))
+        }
+        funcs[HAMMER_SLOT] = Consumer {
+            if(hammer == null) return@Consumer
+            val player = it.whoClicked as? Player ?: return@Consumer
+            if(it.cursor != null && it.cursor?.type != Material.AIR) {
+                if(hammer!!.isSimilarTo(it.cursor!!)) {
+                    it.isCancelled = true
+                    player.playSound(player.location, Sound.BLOCK_ANVIL_HIT, 1f, 1f)
+                    return@Consumer
+                } else {
+                    it.isCancelled = false
+                }
             }
         }
         funcs[PROGRESS_SLOT] = Consumer {
             val player = it.whoClicked as? Player ?: return@Consumer
             val origin = inv.getItem(INPUT_SLOT_ORIGIN)
             val material = inv.getItem(INPUT_SLOT_MATERIAL)
+            val hammerItem = inv.getItem(HAMMER_SLOT)
             if(origin == null || origin.type == Material.AIR) {
                 error("&c인첸트 할 곡괭이를 넣어주세요.")
                 return@Consumer
@@ -97,6 +118,10 @@ class AnvilGUI(
             }
             if(!sameItem(INPUT_SLOT_ORIGIN, INPUT_SLOT_MATERIAL)) {
                 error("&c인첸트 할 곡괭이의 종류가 다릅니다.")
+                return@Consumer
+            }
+            if(hammerItem == null || hammer?.isSimilarTo(hammerItem) == false) {
+                error("&c망치를 넣어주세요.")
                 return@Consumer
             }
 
@@ -118,9 +143,10 @@ class AnvilGUI(
             result.itemMeta = result.itemMeta.apply {
                 mergedEnchants.forEach { addEnchant(it.key, it.value, true)  }
             }
-            inv.setItem(OUTPUT_SLOT, result)
             inv.setItem(INPUT_SLOT_ORIGIN, null)
             inv.setItem(INPUT_SLOT_MATERIAL, null)
+            inv.setItem(HAMMER_SLOT, null)
+            inv.setItem(OUTPUT_SLOT, result)
             player.playSound(player.location, Sound.BLOCK_ANVIL_USE, 1f, 1f)
             player.updateInventory()
         }
@@ -147,9 +173,9 @@ class AnvilGUI(
                 displayName(LegacyComponentSerializer.legacyAmpersand().deserialize(msg))
             }
         }
-        inv.setItem(EnchantGUI.PROCESS_SLOT, item)
+        inv.setItem(PROGRESS_SLOT, item)
         Pickave.ex.sync(40) {
-            inv.setItem(EnchantGUI.PROCESS_SLOT, originalItem)
+            inv.setItem(PROGRESS_SLOT, originalItem)
         }
     }
 }

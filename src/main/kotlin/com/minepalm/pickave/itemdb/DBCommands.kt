@@ -29,7 +29,7 @@ class DBCommands : BaseCommand() {
 
     @Subcommand("get")
     fun get(sender: Player, name: String) {
-        val item = repo[name]
+        val item = repo[name.uppercase()]
         if(item == null) {
             sender.sendMessage("§c존재하지 않는 아이템입니다.")
             return

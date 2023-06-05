@@ -25,6 +25,7 @@ class ShopFunctionsConfig(
     init {
         if(!file.exists())
             file.createNewFile()
+        Pickave.logger.info("[PickaveShop] loading shop ${file.name}")
         config = YamlConfiguration.loadConfiguration(file)
         defaultType = config.getString("default-type") ?: "none"
         presetName = config.getString("preset") ?: run {
@@ -102,7 +103,7 @@ class ShopFunctionsConfig(
                     return { itemz.clone() }
                 }
                 else -> {
-                    val material = Material.getMaterial(itemName)
+                    val material = Material.getMaterial(name.uppercase())
                     if (material != null) {
                         return { ItemStack(material) }
                     } else
